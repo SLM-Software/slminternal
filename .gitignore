@@ -1,0 +1,4 @@
+*.iml
+logs/
+vendor/
+/.idea/workspace.xml

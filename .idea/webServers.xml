@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="be4acabb-4e53-4c7a-909f-31d69780054a" name="Localhost" url="http://localhost:8080/slm/api/slminternal">
+        <fileTransfer port="0" mountedRoot="/Applications/mappstack-7.1.7-0/apache2/htdocs/slm/api/slminternal" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
