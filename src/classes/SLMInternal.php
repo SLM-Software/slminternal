@@ -32,7 +32,7 @@ class SLMInternal
 	 *                                        manipulate the HTTP request method, headers, and body.
 	 *
 	 *
-	 * @return array Keys: errCode, errText, errLoc, errCust, retPack
+	 * @return array Keys: errCode, statusText, codeLoc, errCust, retPack
 	 */
 	public function validateDeviceIdFormat($request)
 	{
@@ -41,11 +41,11 @@ class SLMInternal
 		if (preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/i', rtrim($myDid)) == TRUE)
 		{
 			$this->myLogger->debug(__METHOD__ . '/ valid UUID 4 Time format');
-			$resultString = array('errCode' => 0, 'errText' => 'Success', 'errLoc' => '', 'custMsg' => '', 'retPack' => '');
+			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => '');
 		} else
 		{
 			$this->myLogger->warning(__METHOD__ . '/ Invalid UUID 4 Time format' . trim($myDid));
-			$resultString = array('errCode' => 900, 'errText' => 'Invalid device id', 'errLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $this->generateDeviceId());
+			$resultString = array('errCode' => 900, 'statusText' => 'Invalid device id', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $this->generateDeviceId());
 		}
 
 		return $resultString;
@@ -61,7 +61,7 @@ class SLMInternal
 	public function getDeviceId()
 	{
 		$this->myLogger->debug(__METHOD__);
-		return array('errCode' => 0, 'errText' => 'Success', 'errLoc' => '', 'custMsg' => '', 'retPack' => $this->generateDeviceId());
+		return array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => $this->generateDeviceId());
 	}
 
 	/**
@@ -77,7 +77,7 @@ class SLMInternal
 		$res = $client->request('GET', 'slminfo/version');
 		$retValue = substr($res->getBody(), 0);
 		$myObj = json_decode($retValue);
-		$resultString = array('errCode' => 0, 'errText' => 'Success', 'errLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array) $myObj->retPack);
+		$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array) $myObj->retPack);
 		return $resultString;
 	}
 
