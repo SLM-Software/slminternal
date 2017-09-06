@@ -1,22 +1,22 @@
 <?php
 // Routes
 
-//$app->get('/getdeviceid', function ($request, $response, $args)
-//{
-//	$this->logger->info("/getdeviceid '/' route");
-//	$mySLMInternal = new SLMInternal($this->logger);
-//
-//	return $response->withJson($mySLMInternal->getDeviceId());
-//});
+$app->get('/slm/api/slminternal/getdeviceid', function ($request, $response, $args)
+{
+	$this->logger->info("/getdeviceid '/' route");
+	$mySLMInternal = new \API\SLMInternal($this->logger);
 
-//$app->get('/validdeviceid', function ($request, $response, $args)
-//{
-//	$this->logger->info("/getdeviceid '/' route");
-//
-//	$mySLMINternal = new SLMInternal($this->logger);
-//
-//	return $response->withJson($mySLMInternal->validDeviceIdFormat($request));
-//});
+	return $response->withJson($mySLMInternal->getDeviceId());
+});
+
+$app->get('/slm/api/slminternal/validatedeviceid', function ($request, $response, $args)
+{
+	$this->logger->info("/validatedeviceid '/' route");
+
+	$mySLMInternal = new \API\SLMInternal($this->logger);
+
+	return $response->withJson($mySLMInternal->validateDeviceIdFormat($request));
+});
 
 //$app->get('/version', function ($request, $response, $args)
 //{
