@@ -17,3 +17,14 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+// database - postgres
+$container['db'] = function ($c)
+{
+	$settings = $c->get('settings')['db'];
+	$pdo = new PDO('pgsql:host=localhost;dbname=slmdb;port=5432', 'slmadmin', 'Yidiao01');
+	$pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+	$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	return $pdo;
+};
