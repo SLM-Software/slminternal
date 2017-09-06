@@ -18,6 +18,11 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class SLMInternal
 {
 	/**
+	 * @var "Slim\Http\RequestMonolog\Logger" $logger The instance of the Logger created at startup.
+	 */
+	protected $myLogger;
+
+	/**
 	 * Valid DeviceId has UUID 4 Time format.
 	 *
 	 * @api
@@ -47,11 +52,6 @@ class SLMInternal
 	}
 
 	/**
-	 * @var "Slim\Http\RequestMonolog\Logger" $logger The instance of the Logger created at startup.
-	 */
-	protected $myLogger;
-
-	/**
 	 * generate DeviceId.
 	 *
 	 * @api
@@ -62,6 +62,23 @@ class SLMInternal
 	{
 		$this->myLogger->debug(__METHOD__);
 		return array('errCode' => 0, 'errText' => 'Success', 'errLoc' => '', 'custMsg' => '', 'retPack' => $this->generateDeviceId());
+	}
+
+	/**
+	 * return the version of the API being called.
+	 *
+	 * @api
+	 *
+	 * @return array Keys: errCode, errText, errLoc, custMsg, retPack
+	 */
+	public function getVersion()
+	{
+		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
+		$res = $client->request('GET', 'slminfo/version');
+		$retValue = substr($res->getBody(), 0);
+		$myObj = json_decode($retValue);
+		$resultString = array('errCode' => 0, 'errText' => 'Success', 'errLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array) $myObj->retPack);
+		return $resultString;
 	}
 
 	/**
