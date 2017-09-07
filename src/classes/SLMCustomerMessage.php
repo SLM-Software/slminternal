@@ -1,8 +1,8 @@
 <?php
 /**
- * Short Description
+ * Manages message displayed to the customer
  *
- * Long Description
+ * This is a collection of methods that are used to store, retrieve and update message displayed to the customer in various langauges.
  *
  */
 /**
@@ -17,7 +17,7 @@ namespace API;
 /**
  * Class SLMCustomerMessage
  */
-class SLMCustomerMessage
+class SLMCustomerMessage extends SLMInternal
 {
 	/**
 	 * Class Variable area
@@ -38,9 +38,9 @@ class SLMCustomerMessage
 	protected $variable;
 
 	/**
-	 * Short Description
+	 * This will get a customer message from the database
 	 *
-	 * Long Description
+	 * Based on the parameters supplied in the call, this method will return a message in the langauge requested.
 	 *
 	 * @api
 	 *
@@ -50,53 +50,49 @@ class SLMCustomerMessage
 	 *
 	 *          The query elements in the URI are as follow:
 	 *          Required elements:
-	 *              pemail    = primary email [varchar(100)]
-	 *              pphone    = primary phone [bigint]
-	 *              fname     = first name [varchar(25)]
-	 *              lname     = last name [varchar(30)]
-	 *              pword     = password (Must be hashed by caller) [varchar(100)]
+	 *              cmtag   = customer message tag [varchar(50)]
+	 *              localeid = local idenitifer [varchar(10)]
 	 *
 	 *          Option elements:
-	 *              ppmethod  = primary payment method [json]
-	 *              sgender   = supplied gender [char(6)]
-	 *              bdate     = birthdate [json]
+	 *              none at this time.
 	 *
 	 * @todo What still needs to be done before going to production
 	 *
-	 * @return array  Keys: errCode, errText, errLoc, custMsg, retPack
+	 * @return array  Keys: errCode, statusText, codeLoc, custMsg, retPack
 	 *                      errCode is 0 for Success or 900 for error
-	 *                      errText contains system generated error message for debugging
-	 *                      errLoc is the class and method that throw the error
+	 *                      statusText contains system generated error message for debugging
+	 *                      codeLoc is the class and method that throw the error
 	 *                      custMsg is the message that is displayed to the end user (customer or member)
 	 *                      retPack is the payload that is return to the caller
 	 */
-	public function myMethodNameHere($request)
+	public function getCustomerMessage($request)
 	{
 		$this->myLogger->debug(__METHOD__);
 
-		// Get Query Param
-		$request->getQueryParam('did');
-
-		/**
-		 * Code goes here
-		 */
+		$myCMTag = strtolower($request->getQueryParam('cmtag'));
+		$myLocaleId = strtoupper($request->getQueryParam('localeid'));
+		$qCustMessage = $this->myDB->prepare('select customermessage from slm.customermessages where lovkey = :cmtag and localeidentifier = :localeid');
+		$qCustMessage->bindParam(':cmtag', $myCMTag, $this->myDB::PARAM_STR);
+		$qCustMessage->bindParam(':localeid', $myLocaleId, $this->myDB::PARAM_STR);
+		$myException = '';
+		try
+		{
+			$qCustMessage->execute();
+			$custMessage = $qCustMessage->fetch();
+			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => $custMessage, 'retPack' => '');
+		} catch (PDOException $e)
+		{
+			$myException = $e;
+			$resultString = array('errCode' => 900, 'statusText' => 'PDOException', 'codeLoc' => __METHOD__, 'custMsg' => 'error', 'retPack' => $e);
+			$this->logger->info(serialize($e));
+		}
+		$this->myLogger->info(serialize($custMessage));
 
 		return $resultString;
 	}
 
 	/**
-	 * Class Constructor with a parent.
-	 *
-	 * @param $logger
-	 */
-	public function __construct($logger)
-	{
-		parent::__construct($logger);
-		$this->myLogger->debug(__METHOD__);
-	}
-
-	/**
-	 * Class Constructor without a parent
+	 * SLMCustomerMessage constructor
 	 *
 	 * @param $logger
 	 * @param $db
