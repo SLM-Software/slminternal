@@ -25,6 +25,14 @@ $app->get('/slm/api/slminternal/version', function ($request, $response, $args)
 	return $response->withJson($mySLMInternal->getVersion());
 });
 
+$app->get('/slm/api/slminternal/getcustomermessage', function ($request, $response, $args)
+{
+	$this->logger->info("getCustomerMessage '/' route");
+	$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->db);
+
+	return $response->withJson($mySLMCustomerMessage->getCustomerMessage($request));
+});
+
 $app->get('/[{name}]', function ($request, $response, $args) {
     // Sample log message
     $this->logger->info("SLMInternal:catch-all '/' route");
