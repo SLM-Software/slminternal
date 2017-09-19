@@ -11,6 +11,7 @@ namespace API;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Slim;
 
 /**
  * Class SLMInternal
@@ -27,7 +28,7 @@ class SLMInternal
 	 *
 	 * @api
 	 *
-	 * @param ServerRequestInterface $request The request object implements the PSR 7
+	 * @param Slim\Http\Request $request The request object implements the PSR 7
 	 *                                        ServerRequestInterface with which you can inspect and
 	 *                                        manipulate the HTTP request method, headers, and body.
 	 *
@@ -40,7 +41,7 @@ class SLMInternal
 	 *                      retPack is the payload that is return to the caller
 
 	 */
-	public function validateDeviceIdFormat_Request(ServerRequestInterface $request)
+	public function validateDeviceIdFormat_Request(Slim\Http\Request $request)
 	{
 		$this->myLogger->debug(__METHOD__);
 		$myDid = base64_decode($request->getQueryParam('did'));
