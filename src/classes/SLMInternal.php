@@ -32,23 +32,43 @@ class SLMInternal
 	 *                                        manipulate the HTTP request method, headers, and body.
 	 *
 	 *
-	 * @return array Keys: errCode, statusText, codeLoc, errCust, retPack
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
+	 *                      errCode is 0 for Success or 900 for error
+	 *                      statusText contains system generated error message for debugging
+	 *                      codeLoc is the class and method that throw the error
+	 *                      custMsg is the message that is displayed to the end user (customer or member)
+	 *                      retPack is the payload that is return to the caller
+
 	 */
-	public function validateDeviceIdFormat($request)
+	public function validateDeviceIdFormat_Request(ServerRequestInterface $request)
 	{
 		$this->myLogger->debug(__METHOD__);
 		$myDid = base64_decode($request->getQueryParam('did'));
-		if (preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/i', rtrim($myDid)) == TRUE)
-		{
-			$this->myLogger->debug(__METHOD__ . '/ valid UUID 4 Time format');
-			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => '');
-		} else
-		{
-			$this->myLogger->warning(__METHOD__ . '/ Invalid UUID 4 Time format' . trim($myDid));
-			$resultString = array('errCode' => 900, 'statusText' => 'Invalid device id', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $this->generateDeviceId());
-		}
 
-		return $resultString;
+		return $this->validateDeviceId($myDid);
+	}
+
+	/**
+	 * Valid DeviceId has UUID 4 Time format.
+	 *
+	 * @api
+	 *
+	 * @param String $did
+	 *
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
+	 *                      errCode is 0 for Success or 900 for error
+	 *                      statusText contains system generated error message for debugging
+	 *                      codeLoc is the class and method that throw the error
+	 *                      custMsg is the message that is displayed to the end user (customer or member)
+	 *                      retPack is the payload that is return to the caller
+
+	 */
+	public function validateDeviceIdFormat_String(String $did)
+	{
+		$this->myLogger->debug(__METHOD__);
+		$myDid = base64_decode($did);
+
+		return $this->validateDeviceId($myDid);
 	}
 
 	/**
@@ -56,7 +76,7 @@ class SLMInternal
 	 *
 	 * @api
 	 *
-	 * @return array Keys: errCode, errText, errLoc, custMsg, retPack
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
 	 */
 	public function getDeviceId()
 	{
@@ -69,7 +89,7 @@ class SLMInternal
 	 *
 	 * @api
 	 *
-	 * @return array Keys: errCode, errText, errLoc, custMsg, retPack
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
 	 */
 	public function getVersion()
 	{
@@ -88,6 +108,24 @@ class SLMInternal
 	{
 		$this->myLogger->debug(__METHOD__);
 		return base64_encode(Uuid::uuid1());
+	}
+
+	/**
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
+	 */
+	protected function validateDeviceId(String $myDid)
+	{
+		$this->myLogger->debug(__METHOD__);
+		if (preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/i', rtrim($myDid)) == TRUE)
+		{
+			$this->myLogger->debug(__METHOD__ . '/ valid UUID 4 Time format');
+			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => '');
+		} else
+		{
+			$this->myLogger->warning(__METHOD__ . '/ Invalid UUID 4 Time format' . trim($myDid));
+			$resultString = array('errCode' => 900, 'statusText' => 'Invalid device id', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $this->generateDeviceId());
+		}
+		return $resultString;
 	}
 
 	/**
