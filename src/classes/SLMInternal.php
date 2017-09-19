@@ -82,7 +82,7 @@ class SLMInternal
 	public function getDeviceId()
 	{
 		$this->myLogger->debug(__METHOD__);
-		return array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => $this->generateDeviceId());
+		return array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $this->generateDeviceId());
 	}
 
 	/**
@@ -120,7 +120,7 @@ class SLMInternal
 		if (preg_match('/[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-(8|9|a|b)[a-f0-9]{3}\-[a-f0-9]{12}/i', rtrim($myDid)) == TRUE)
 		{
 			$this->myLogger->debug(__METHOD__ . '/ valid UUID 4 Time format');
-			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => '', 'custMsg' => '', 'retPack' => '');
+			$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => '');
 		} else
 		{
 			$this->myLogger->warning(__METHOD__ . '/ Invalid UUID 4 Time format' . trim($myDid));
