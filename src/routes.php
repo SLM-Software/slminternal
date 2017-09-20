@@ -14,7 +14,7 @@ $app->get('/slm/api/slminternal/validatedeviceid', function ($request, $response
 	$this->logger->info("/validatedeviceid '/' route");
 	$mySLMInternal = new \API\SLMInternal($this->logger);
 
-	return $response->withJson($mySLMInternal->validateDeviceIdFormat($request));
+	return $response->withJson($mySLMInternal->validateDeviceIdFormat_Request($request));
 });
 
 $app->get('/slm/api/slminternal/version', function ($request, $response, $args)
