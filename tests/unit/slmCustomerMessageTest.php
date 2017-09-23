@@ -1,7 +1,7 @@
 <?php
 
 
-class slminternalTest extends \Codeception\Test\Unit
+class slmCustomerMessageTest extends \Codeception\Test\Unit
 {
 
 	/**
@@ -18,6 +18,11 @@ class slminternalTest extends \Codeception\Test\Unit
 	 * @var \Logger
 	 */
 	protected $logger;
+
+	/**
+	 * @var \DB
+	 */
+	protected $db;
 
 	/**
 	 * @var \API Results
@@ -45,71 +50,55 @@ class slminternalTest extends \Codeception\Test\Unit
 		$this->logger = new Monolog\Logger($this->settings['settings']['logger']['name']);
 		$this->logger->pushProcessor(new Monolog\Processor\UidProcessor());
 		$this->logger->pushHandler(new Monolog\Handler\StreamHandler($this->settings['settings']['logger']['path'], $this->settings['settings']['logger']['level']));
+
+// Start Database
+		$this->pdo = new PDO($this->settings['settings']['db']['dns'], $this->settings['settings']['db']['username'], $this->settings['settings']['db']['password']);
+		$this->pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+		$this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 	}
 
 	protected function _after()
 	{
 	}
 
-	// tests
-	public function testGetVersion()
+	public function testGetCustomerMessage_Request()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->getVersion();
+		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
+		$res = $client->request('GET', 'slminternal/getcustomermessage?cmtag=test&localeid=EN-US&');
+		$this->apiResults = json_decode($res->getBody());
 		codecept_debug($this->apiResults);
-		$this->assertTrue($this->apiResults['retPack']['version'] == 2017);
-		$this->assertTrue($this->apiResults['retPack']['build'] == 1);
+		$this->assertTrue( $this->apiResults->errCode == 0);
+		$this->assertTrue( $this->apiResults->custMsg->customermessage == 'This is a test Message');
 		$this->logger->debug('test has been run');
 	}
 
-	public function testGetDeviceIdValidate_String()
+	public function testNegativeGetCustomerMessage_Request()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->getDeviceId();
+		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
+		$res = $client->request('GET', 'slminternal/getcustomermessage?cmtag=BadTest&localeid=EN-US&');
+		$this->apiResults = json_decode($res->getBody());
 		codecept_debug($this->apiResults);
-		$myResult = $mySLMInternal->validateDeviceIdFormat_String($this->apiResults['retPack']);
-		$this->assertTrue( $myResult['errCode'] == 0);
+		$this->assertTrue( $this->apiResults->errCode == 200);
 		$this->logger->debug('test has been run');
-
 	}
 
-	public function testNegativeGetDeviceIdValidate_String()
+	public function testGetCustomerMessage_String()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->validateDeviceIdFormat_String('NzYxYTlkM2EtOWQ5My0xMWU3LTk2ZjQtOTg');
-		codecept_debug($this->apiResults);
-		$this->assertTrue( $this->apiResults['errCode'] == 900);
-		$this->apiResults = $mySLMInternal->validateDeviceIdFormat_String($this->apiResults['retPack']);
+		$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->pdo);
+		$this->apiResults = $mySLMCustomerMessage->getCustomerMessage_String('test', 'EN-US');
 		codecept_debug($this->apiResults);
 		$this->assertTrue( $this->apiResults['errCode'] == 0);
 		$this->logger->debug('test has been run');
 	}
 
-	public function testGetDeviceIdValidate_Request()
+	public function testNegativeGetCustomerMessage_String()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->getDeviceId();
-		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
-		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . $this->apiResults['retPack'] . '&');
-		$this->apiResults = json_decode($res->getBody());
+		$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->pdo);
+		$this->apiResults = $mySLMCustomerMessage->getCustomerMessage_String('BADtest', 'EN-US');
 		codecept_debug($this->apiResults);
-		$this->assertTrue( $this->apiResults->errCode == 0);
-	}
-
-	public function testNegativeGetDeviceIdValidate_Request()
-	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->getDeviceId();
-		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
-		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . substr($this->apiResults['retPack'], 0, 20) . '&');
-		$this->apiResults = json_decode($res->getBody());
-		codecept_debug($this->apiResults);
-		$this->assertTrue( $this->apiResults->errCode == 900);
-
-		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
-		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . $this->apiResults->retPack . '&');
-		$this->apiResults = json_decode($res->getBody());
-		codecept_debug($this->apiResults);
-		$this->assertTrue( $this->apiResults->errCode == 0);
+		$this->assertTrue( $this->apiResults['errCode'] == 200);
+		$this->logger->debug('test has been run');
 	}
 }
