@@ -30,7 +30,7 @@ $app->get('/slm/api/slminternal/getcustomermessage', function ($request, $respon
 	$this->logger->info("getCustomerMessage '/' route");
 	$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->db);
 
-	return $response->withJson($mySLMCustomerMessage->getCustomerMessage($request));
+	return $response->withJson($mySLMCustomerMessage->getCustomerMessage_Request($request));
 });
 
 $app->get('/[{name}]', function ($request, $response, $args) {
