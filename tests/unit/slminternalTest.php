@@ -88,9 +88,13 @@ class slminternalTest extends \Codeception\Test\Unit
 	public function testGetDeviceIdValidate_Request()
 	{
 		$mySLMInternal = new \API\SLMInternal($this->logger);
-		$this->apiResults = $mySLMInternal->getDeviceId();
 		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
-		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . $this->apiResults['retPack'] . '&');
+		$res = $client->request('GET', 'slminternal/getdeviceid');
+		$this->apiResults = json_decode($res->getBody());
+		codecept_debug($this->apiResults);
+
+		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
+		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . $this->apiResults->retPack . '&');
 		$this->apiResults = json_decode($res->getBody());
 		codecept_debug($this->apiResults);
 		$this->assertTrue( $this->apiResults->errCode == 0);
