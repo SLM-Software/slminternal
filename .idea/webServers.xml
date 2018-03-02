@@ -2,8 +2,13 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="be4acabb-4e53-4c7a-909f-31d69780054a" name="Localhost" url="http://localhost:8080/slm/api/slminternal">
-        <fileTransfer port="0" mountedRoot="/Applications/mappstack-7.1.7-0/apache2/htdocs/slm/api/slminternal" accessType="MOUNT" />
+      <webServer id="3ecaf3db-5593-4f5a-ade9-3816be670a04" name="Ubuntu-Server" url="http://ubuntu.yackofamily.com">
+        <fileTransfer host="ubuntu.yackofamily.com" port="22" rootFolder="/opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
       </webServer>
     </option>
   </component>

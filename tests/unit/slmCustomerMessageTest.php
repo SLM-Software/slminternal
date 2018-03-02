@@ -86,7 +86,7 @@ class slmCustomerMessageTest extends \Codeception\Test\Unit
 
 	public function testGetCustomerMessage_String()
 	{
-		$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->pdo);
+		$mySLMCustomerMessage = new \API\EDENCustomerMessage($this->logger, $this->pdo);
 		$this->apiResults = $mySLMCustomerMessage->getCustomerMessage_String('test', 'EN-US');
 		codecept_debug($this->apiResults);
 		$this->assertTrue( $this->apiResults['errCode'] == 0);
@@ -95,7 +95,7 @@ class slmCustomerMessageTest extends \Codeception\Test\Unit
 
 	public function testNegativeGetCustomerMessage_String()
 	{
-		$mySLMCustomerMessage = new \API\SLMCustomerMessage($this->logger, $this->pdo);
+		$mySLMCustomerMessage = new \API\EDENCustomerMessage($this->logger, $this->pdo);
 		$this->apiResults = $mySLMCustomerMessage->getCustomerMessage_String('BADtest', 'EN-US');
 		codecept_debug($this->apiResults);
 		$this->assertTrue( $this->apiResults['errCode'] == 200);

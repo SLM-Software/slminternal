@@ -54,7 +54,7 @@ class slminternalTest extends \Codeception\Test\Unit
 	// tests
 	public function testGetVersion()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
+		$mySLMInternal = new \API\EDENInternal($this->logger);
 		$this->apiResults = $mySLMInternal->getVersion();
 		codecept_debug($this->apiResults);
 		$this->assertTrue($this->apiResults['retPack']['version'] == 2017);
@@ -64,7 +64,7 @@ class slminternalTest extends \Codeception\Test\Unit
 
 	public function testGetDeviceIdValidate_String()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
+		$mySLMInternal = new \API\EDENInternal($this->logger);
 		$this->apiResults = $mySLMInternal->getDeviceId();
 		codecept_debug($this->apiResults);
 		$myResult = $mySLMInternal->validateDeviceIdFormat_String($this->apiResults['retPack']);
@@ -75,7 +75,7 @@ class slminternalTest extends \Codeception\Test\Unit
 
 	public function testNegativeGetDeviceIdValidate_String()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
+		$mySLMInternal = new \API\EDENInternal($this->logger);
 		$this->apiResults = $mySLMInternal->validateDeviceIdFormat_String('NzYxYTlkM2EtOWQ5My0xMWU3LTk2ZjQtOTg');
 		codecept_debug($this->apiResults);
 		$this->assertTrue( $this->apiResults['errCode'] == 900);
@@ -87,7 +87,7 @@ class slminternalTest extends \Codeception\Test\Unit
 
 	public function testGetDeviceIdValidate_Request()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
+		$mySLMInternal = new \API\EDENInternal($this->logger);
 		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
 		$res = $client->request('GET', 'slminternal/getdeviceid');
 		$this->apiResults = json_decode($res->getBody());
@@ -102,7 +102,7 @@ class slminternalTest extends \Codeception\Test\Unit
 
 	public function testNegativeGetDeviceIdValidate_Request()
 	{
-		$mySLMInternal = new \API\SLMInternal($this->logger);
+		$mySLMInternal = new \API\EDENInternal($this->logger);
 		$this->apiResults = $mySLMInternal->getDeviceId();
 		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
 		$res = $client->request('GET', 'slminternal/validatedeviceid?did=' . substr($this->apiResults['retPack'], 0, 20) . '&');

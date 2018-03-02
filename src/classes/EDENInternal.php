@@ -16,12 +16,17 @@ use Slim;
 /**
  * Class SLMInternal
  */
-class SLMInternal
+class EDENInternal
 {
 	/**
 	 * @var "Slim\Http\RequestMonolog\Logger" $logger The instance of the Logger created at startup.
 	 */
 	protected $myLogger;
+
+	/**
+	 * @var Curl $curlSettings This has curl settings.
+	 */
+	protected $myCurlSettings;
 
 	/**
 	 * Valid DeviceId has UUID 4 Time format.
@@ -94,11 +99,18 @@ class SLMInternal
 	 */
 	public function getVersion()
 	{
-		$client = new \GuzzleHttp\Client(['base_uri' => 'http://localhost:8080/slm/api/', 'timeout' => 2.0]);
-		$res = $client->request('GET', 'slminfo/version');
+		if ($this->myCurlSettings['port'] == '8443')
+		{
+			$url = 'https://' . $this->myCurlSettings['host'] . ':' . $this->myCurlSettings['port'];
+		} else {
+			$url = 'http://' . $this->myCurlSettings['host'] . ':' . $this->myCurlSettings['port'];
+		}
+		$this->myLogger->debug('\$url=' . $url);
+		$client = new \GuzzleHttp\Client(['base_uri' => $url, 'timeout' => 2.0]);
+		$res = $client->request('GET', '/edeninfo/version', ['verify' => false]);
 		$retValue = substr($res->getBody(), 0);
 		$myObj = json_decode($retValue);
-		$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array) $myObj->retPack);
+		$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array)$myObj->retPack);
 		return $resultString;
 	}
 
@@ -134,9 +146,11 @@ class SLMInternal
 	 *
 	 * @param $logger
 	 */
-	public function __construct($logger)
+	public function __construct($logger, $curlSettings)
 	{
 		$this->myLogger = $logger;
 		$this->myLogger->debug(__METHOD__);
+
+		$this->myCurlSettings = $curlSettings;
 	}
 }

@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <title>Slim Application Error</title>
+    <style>body {
+        margin: 0;
+        padding: 30px;
+        font: 12px/1.5 Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: normal;
+        line-height: 48px;
+    }
+
+    strong {
+        display: inline-block;
+        width: 65px;
+    }</style>
+</head>
+<body><h1>Slim Application Error</h1>
+<p>The application could not run because of the following error:</p>
+<h2>Details</h2>
+<div><strong>Type:</strong> InvalidArgumentException</div>
+<div><strong>Message:</strong> Unable to parse URI: https://:8443</div>
+<div><strong>File:</strong> /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/guzzlehttp/psr7/src/Uri.php</div>
+<div><strong>Line:</strong> 71</div>
+<h2>Trace</h2>
+<pre>#0 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/guzzlehttp/psr7/src/functions.php(59): GuzzleHttp\Psr7\Uri-&gt;__construct('https://:8443')
+#1 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/guzzlehttp/guzzle/src/Client.php(72): GuzzleHttp\Psr7\uri_for('https://:8443')
+#2 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/src/classes/EDENInternal.php(104): GuzzleHttp\Client-&gt;__construct(Array)
+#3 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/src/routes.php(28): API\EDENInternal-&gt;getVersion()
+#4 [internal function]: Closure-&gt;{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#6 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/Route.php(344): Slim\Handlers\Strategies\RequestResponse-&gt;__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#7 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\Route-&gt;__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/Route.php(316): Slim\Route-&gt;callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/App.php(476): Slim\Route-&gt;run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\App-&gt;__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/App.php(370): Slim\App-&gt;callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#12 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/vendor/slim/slim/Slim/App.php(295): Slim\App-&gt;process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#13 /opt/lappstack/v-7.1.14-0/apache2/htdocs/eden/api/edeninternal/public/index.php(30): Slim\App-&gt;run()
+#14 {main}</pre>
+</body>
+</html>

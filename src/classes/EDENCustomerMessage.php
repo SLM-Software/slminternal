@@ -18,7 +18,7 @@ use Slim;
 /**
  * Class SLMCustomerMessage
  */
-class SLMCustomerMessage extends SLMInternal
+class EDENCustomerMessage extends EDENInternal
 {
 	/**
 	 * Class Variable area
