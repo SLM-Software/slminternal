@@ -99,7 +99,7 @@ class EDENInternal
 	 */
 	public function getVersion()
 	{
-		if ($this->myCurlSettings['port'] == '8443')
+		if ($this->myCurlSettings['port'] == '443')
 		{
 			$url = 'https://' . $this->myCurlSettings['host'] . ':' . $this->myCurlSettings['port'];
 		} else {
@@ -108,6 +108,8 @@ class EDENInternal
 		$this->myLogger->debug('\$url=' . $url);
 		$client = new \GuzzleHttp\Client(['base_uri' => $url, 'timeout' => 2.0]);
 		$res = $client->request('GET', '/edeninfo/version', ['verify' => false]);
+	//@todo Get the line below working so eliminate this small security issue.
+//		$res = $client->request('GET', '/edeninfo/version');
 		$retValue = substr($res->getBody(), 0);
 		$myObj = json_decode($retValue);
 		$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array)$myObj->retPack);
