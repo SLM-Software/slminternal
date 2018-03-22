@@ -22,8 +22,9 @@ $app->group('', function(){
 	$this->get('/edeninternal/version', function ($request, $response, $args)
 	{
 		$this->logger->info("version '/' route");
-		$curlSettings = $this->get('settings')['curl'];
-		$myEDENInternal = new \API\EDENInternal($this->logger, $curlSettings);
+		$versionSetting = $this->get('settings')['VERSION'];
+		$buildSetting = $this->get('settings')['BUILD'];
+		$myEDENInternal = new \API\EDENInternal($this->logger, $versionSetting, $buildSetting);
 
 		return $response->withJson($myEDENInternal->getVersion());
 	});

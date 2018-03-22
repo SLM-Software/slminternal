@@ -24,9 +24,14 @@ class EDENInternal
 	protected $myLogger;
 
 	/**
-	 * @var Curl $curlSettings This has curl settings.
+	 * @var  $myVersionSettings This has version value.
 	 */
-	protected $myCurlSettings;
+	protected $myVersionSetting;
+
+	/**
+	 * @var  $myBuildSettings This has build number.
+	 */
+	protected $myBuildSetting;
 
 	/**
 	 * Valid DeviceId has UUID 4 Time format.
@@ -99,21 +104,11 @@ class EDENInternal
 	 */
 	public function getVersion()
 	{
-		if ($this->myCurlSettings['port'] == '443')
-		{
-			$url = 'https://' . $this->myCurlSettings['host'] . ':' . $this->myCurlSettings['port'];
-		} else {
-			$url = 'http://' . $this->myCurlSettings['host'] . ':' . $this->myCurlSettings['port'];
-		}
-		$this->myLogger->debug('\$url=' . $url);
-		$client = new \GuzzleHttp\Client(['base_uri' => $url, 'timeout' => 2.0]);
-		$res = $client->request('GET', '/edeninfo/version', ['verify' => false]);
-	//@todo Get the line below working so eliminate this small security issue.
-//		$res = $client->request('GET', '/edeninfo/version');
-		$retValue = substr($res->getBody(), 0);
-		$myObj = json_decode($retValue);
-		$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => (array)$myObj->retPack);
-		return $resultString;
+		return array('errCode' => 0,
+		             'statusText' => '',
+		             'codeLoc' => __METHOD__,
+		             'custMsg' => '',
+		             'retPack' => array('version' => $this->myVersionSetting, 'build' => $this->myBuildSetting));
 	}
 
 	/**
@@ -148,11 +143,12 @@ class EDENInternal
 	 *
 	 * @param $logger
 	 */
-	public function __construct($logger, $curlSettings)
+	public function __construct($logger, $versionSetting, $buildSetting)
 	{
 		$this->myLogger = $logger;
 		$this->myLogger->debug(__METHOD__);
 
-		$this->myCurlSettings = $curlSettings;
+		$this->myVersionSetting = $versionSetting;
+		$this->myBuildSetting = $buildSetting;
 	}
 }
