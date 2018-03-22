@@ -8,14 +8,14 @@ $app->group('', function(){
 	$this->get('/edeninternal/getdeviceid', function ($request, $response, $args)
 	{
 		$this->logger->info("/getdeviceid '/' route");
-		$myEDENInternal = new \API\EDENInternal($this->logger);
+		$myEDENInternal = new \API\EDENInternal($this->logger, '', '');
 
 		return $response->withJson($myEDENInternal->getDeviceId());
 	});
 	$this->get('/edeninternal/validatedeviceid', function ($request, $response, $args)
 	{
 		$this->logger->info("/validatedeviceid '/' route");
-		$myEDENInternal = new \API\EDENInternal($this->logger);
+		$myEDENInternal = new \API\EDENInternal($this->logger,'', '');
 
 		return $response->withJson($myEDENInternal->validateDeviceIdFormat_Request($request));
 	});
@@ -31,7 +31,7 @@ $app->group('', function(){
 	$this->get('/edeninternal/getcustomermessage', function ($request, $response, $args)
 	{
 		$this->logger->info("getCustomerMessage '/' route");
-		$myEDENCustomerMessage = new \API\EDENCustomerMessage($this->logger, $this->db);
+		$myEDENCustomerMessage = new \API\EDENMemberMessage($this->logger, $this->db);
 
 		return $response->withJson($myEDENCustomerMessage->getCustomerMessage_Request($request));
 	});

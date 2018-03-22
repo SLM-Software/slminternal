@@ -18,7 +18,7 @@ use Slim;
 /**
  * Class SLMCustomerMessage
  */
-class EDENCustomerMessage extends EDENInternal
+class EDENMemberMessage extends EDENInternal
 {
 	/**
 	 * Class Variable area
@@ -113,7 +113,7 @@ class EDENCustomerMessage extends EDENInternal
 	 *
 	 * @return array
 	 */
-	protected function getCustomerMessage(string $myCMTag, string $myLocaleId)
+	protected function getMemberMessage(string $myCMTag, string $myLocaleId)
 	{
 		$qCustMessage = $this->myDB->prepare('select customermessage from slm.customermessages where lovkey = :cmtag and localeidentifier = :localeid');
 		$qCustMessage->bindParam(':cmtag', $myCMTag, $this->myDB::PARAM_STR);
