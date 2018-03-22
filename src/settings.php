@@ -15,6 +15,8 @@ return [
     'settings' => [
         'displayErrorDetails' => $_ENV['APP_DISPLAYERRORDETAILS'], // set to false in production
         'addContentLengthHeader' => $_ENV['APP_ADDCONTENTLENGTHHEADER'], // Allow the web server to send the content-length header
+        'VERSION' => $_ENV['APP_VERSION'],
+        'BUILD' => $_ENV['APP_BUILD'],
 
         // Renderer settings
         'renderer' => [
