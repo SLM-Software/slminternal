@@ -1,0 +1,5 @@
+tests/unit/EDENInternalTest.php:testGetVersion
+tests/unit/EDENInternalTest.php:testGetDeviceIdValidate_String
+tests/unit/EDENInternalTest.php:testNegativeGetDeviceIdValidate_String
+tests/unit/EDENInternalTest.php:testGetDeviceIdValidate_Request
+tests/unit/EDENInternalTest.php:testNegativeGetDeviceIdValidate_Request

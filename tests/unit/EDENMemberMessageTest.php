@@ -1,7 +1,7 @@
 <?php
 
 
-class slmCustomerMessageTest extends \Codeception\Test\Unit
+class EDENMemberMessageTest extends \Codeception\Test\Unit
 {
 
 	/**

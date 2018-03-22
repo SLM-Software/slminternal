@@ -1,12 +1,4 @@
 <?php
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Dotenv.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Loader.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Validator.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Exception/ExceptionInterface.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Exception/InvalidPathException.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Exception/InvalidFileException.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Exception/InvalidCallbackException.php';
-require __DIR__ . '/../vendor/vlucas/phpdotenv/src/Exception/ValidationException.php';
 
 $dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
 $dotEnv->load();
