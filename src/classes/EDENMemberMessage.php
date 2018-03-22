@@ -132,7 +132,7 @@ class EDENMemberMessage extends EDENInternal
 			if ($qCustMessage->rowCount() == 0 )
 			{
 				$this->myLogger->debug('Row Count is ZERO');
-				$resultString = array('errCode' => 200, 'statusText' => 'Not Found', 'codeLoc' => '', 'custMsg' => $custMessage, 'retPack' => '');
+				$resultString = array('errCode' => 200, 'statusText' => 'Not Found', 'codeLoc' => '', 'custMsg' => $custMessage, 'retPack' => "mmTag=$myMMTag / LocaleId=$myLocaleId");
 			}
 			else
 			{
