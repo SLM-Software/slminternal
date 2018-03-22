@@ -49,7 +49,7 @@ class EDENMemberMessage extends EDENInternal
 	 *
 	 *          The query elements in the URI are as follow:
 	 *          Required elements:
-	 *              cmtag   = customer message tag [varchar(50)]
+	 *              mmtag   = member message tag [varchar(50)]
 	 *              localeid = local idenitifer [varchar(10)]
 	 *
 	 *          Option elements:
@@ -64,13 +64,13 @@ class EDENMemberMessage extends EDENInternal
 	 *                      custMsg is the message that is displayed to the end user (customer or member)
 	 *                      retPack is the payload that is return to the caller
 	 */
-	public function getCustomerMessage_Request(Slim\Http\Request $request)
+	public function getMemberMessage_Request(Slim\Http\Request $request)
 	{
 		$this->myLogger->debug(__METHOD__);
 
-		$myCMTag = strtolower($request->getQueryParam('cmtag'));
+		$myMMTag = strtolower($request->getQueryParam('mmtag'));
 		$myLocaleId = strtoupper($request->getQueryParam('localeid'));
-		return $this->getCustomerMessage($myCMTag, $myLocaleId);
+		return $this->getMemberMessage($myMMTag, $myLocaleId);
 	}
 
 	/**
@@ -80,12 +80,12 @@ class EDENMemberMessage extends EDENInternal
 	 *
 	 * @api
 	 *
-	 * @param String $cmTag - This is the customer message tag
+	 * @param String $mmTag - This is the member message tag
 	 * @param String $localeId - This is the locale language id used.
 	 *
 	 *          The query elements in the URI are as follow:
 	 *          Required elements:
-	 *              cmtag   = customer message tag [varchar(50)]
+	 *              mmtag   = member message tag [varchar(50)]
 	 *              localeid = local idenitifer [varchar(10)]
 	 *
 	 *          Option elements:
@@ -100,23 +100,28 @@ class EDENMemberMessage extends EDENInternal
 	 *                      custMsg is the message that is displayed to the end user (customer or member)
 	 *                      retPack is the payload that is return to the caller
 	 */
-	public function getCustomerMessage_String(string $cmTag, string $localeId)
+	public function getMemberMessage_String(string $mmTag, string $localeId)
 	{
 		$this->myLogger->debug(__METHOD__);
 
-		return $this->getCustomerMessage($cmTag, $localeId);
+		return $this->getCustomerMessage($mmTag, $localeId);
 	}
 
 	/**
-	 * @param string $myCMTag
+	 * @param string $myMMTag
 	 * @param string $myLocaleId
 	 *
 	 * @return array
 	 */
-	protected function getMemberMessage(string $myCMTag, string $myLocaleId)
+	protected function getMemberMessage(string $myMMTag, string $myLocaleId)
 	{
-		$qCustMessage = $this->myDB->prepare('select customermessage from slm.customermessages where lovkey = :cmtag and localeidentifier = :localeid');
-		$qCustMessage->bindParam(':cmtag', $myCMTag, $this->myDB::PARAM_STR);
+		if (!isset($myMMTag) && !isset($myLocaleId) )
+		{
+			return array('errCode' => 201, 'statusText' => 'Empty mmtag and/or localeid', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => '');
+		}
+
+		$qCustMessage = $this->myDB->prepare('select membermessage from eden.membermessages where lovkey = :mmtag and localeidentifier = :localeid');
+		$qCustMessage->bindParam(':mmtag', $myMMTag, $this->myDB::PARAM_STR);
 		$qCustMessage->bindParam(':localeid', $myLocaleId, $this->myDB::PARAM_STR);
 		$myException = '';
 		try

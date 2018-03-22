@@ -28,11 +28,11 @@ $app->group('', function(){
 
 		return $response->withJson($myEDENInternal->getVersion());
 	});
-	$this->get('/edeninternal/getcustomermessage', function ($request, $response, $args)
+	$this->get('/edeninternal/getmembermessage', function ($request, $response, $args)
 	{
-		$this->logger->info("getCustomerMessage '/' route");
-		$myEDENCustomerMessage = new \API\EDENMemberMessage($this->logger, $this->db);
+		$this->logger->info("getMemberMessage '/' route");
+		$myEDENMemberMessage = new \API\EDENMemberMessage($this->logger, $this->db);
 
-		return $response->withJson($myEDENCustomerMessage->getCustomerMessage_Request($request));
+		return $response->withJson($myEDENMemberMessage->getMemberMessage_Request($request));
 	});
 })->add(new Middleware($container));
