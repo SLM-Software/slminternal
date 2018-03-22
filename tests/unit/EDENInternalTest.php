@@ -54,7 +54,7 @@ class EDENInternalTest extends \Codeception\Test\Unit
 	// tests
 	public function testGetVersion()
 	{
-		$myEDENInternal = new \API\EDENInternal($this->logger);
+		$myEDENInternal = new \API\EDENInternal($this->logger, $this->settings['settings']['VERSION'], $this->settings['settings']['BUILD']);
 		$this->apiResults = $myEDENInternal->getVersion();
 		codecept_debug($this->apiResults);
 		$this->assertTrue($this->apiResults['retPack']['version'] == $this->settings['settings']['VERSION']);

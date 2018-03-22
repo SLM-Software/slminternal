@@ -1,6 +1,6 @@
 <?php
 
-$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
+$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../', 'eden.env');
 $dotEnv->load();
 
 return [
@@ -18,7 +18,7 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'EDENINTERNAL',
-            'path'  => __DIR__ . $_ENV['LOG_PATH'] . 'edeninfo_'. $_ENV['LOG_FILENAME'],
+            'path'  => __DIR__ . $_ENV['LOG_PATH'] . 'edeninternal.log',
             'level' => $_ENV['LOG_LEVEL'],
         ],
 
