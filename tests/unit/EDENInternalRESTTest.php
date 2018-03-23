@@ -23,7 +23,7 @@ class EDENInternalRESTTest extends \Codeception\Test\Unit
 	}
 
 	// tests
-	public function testEDENInternalRESTGetVersion()
+	public function testEDENInternalREST()
 	{
 		$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
 		$dotEnv->load();

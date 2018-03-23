@@ -9,11 +9,6 @@ class EDENMemberMessageTest extends \Codeception\Test\Unit
 	protected $tester;
 
 	/**
-	 * @var \Settings
-	 */
-	protected $settings;
-
-	/**
 	 * @var \API Results
 	 */
 	protected $apiResults;
@@ -26,7 +21,7 @@ class EDENMemberMessageTest extends \Codeception\Test\Unit
 	{
 	}
 
-	public function testGetCustomerMessage_Request()
+	public function testEDENMemberMessageREST()
 	{
 		$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
 		$dotEnv->load();
