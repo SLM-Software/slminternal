@@ -104,7 +104,7 @@ class EDENMemberMessage extends EDENInternal
 	{
 		$this->myLogger->debug(__METHOD__);
 
-		return $this->getCustomerMessage($mmTag, $localeId);
+		return $this->getMemberMessage($mmTag, strtoupper($localeId));
 	}
 
 	/**
