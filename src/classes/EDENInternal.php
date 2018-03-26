@@ -139,6 +139,43 @@ class EDENInternal
 	}
 
 	/**
+	 * This will delete the member from the database
+	 *
+	 * THIS IS NOT A REST API. FOR INTERNAL USE ONLY
+	 * THIS IS NOT A REST API. FOR INTERNAL USE ONLY
+	 * THIS IS NOT A REST API. FOR INTERNAL USE ONLY
+	 * THIS IS NOT A REST API. FOR INTERNAL USE ONLY
+	 *
+	 * @param string primary email [varchar(100)]
+	 *
+	 * @return array  Keys: errCode, statusText, codeLoc, custMsg, retPack
+	 *
+	 */
+	public function deleteMember(string $myPrimaryEmail)
+	{
+		$this->myLogger->debug(__METHOD__);
+
+		$resultString = $this->setPrimaryEmail($myPrimaryEmail);
+		if ($resultString['errCode'] == 0)
+		{
+//			$mySTMT = $this->myDB->prepare('DELETE FROM eden.members WHERE primaryemail = \'' . $this->myPrimaryEmail . '\'');
+			$mySTMT = $this->myDB->prepare('DELETE FROM eden.members WHERE primaryemail = :primaryemail');
+			try
+			{
+				$mySTMT->bindParam(':primaryemail', $this->myPrimaryEmail);
+				$mySTMT->execute();
+				$resultString = array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => '');
+			} catch (\PDOException $e)
+			{
+				$resultString = array('errCode' => $e->errorInfo[0], 'statusText' => $e->getMessage(), 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => '');
+			}
+		}
+		$resultString['codeLoc'] = __METHOD__;
+
+		return $resultString;
+	}
+
+	/**
 	 * SLMInternal constructor.
 	 *
 	 * @param $logger

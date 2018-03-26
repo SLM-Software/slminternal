@@ -57,3 +57,4 @@ vendor/
 httpRequests
 .idea
 /.idea
+_output

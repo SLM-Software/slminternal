@@ -25,9 +25,6 @@ class EDENInternalRESTTest extends \Codeception\Test\Unit
 	// tests
 	public function testEDENInternalREST()
 	{
-		$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
-		$dotEnv->load();
-
 		codecept_debug('Starting testEDENInternalREST - Executing edeninternal/version:');
 		$this->client = new \GuzzleHttp\Client(['base_uri' => 'https://' . $_ENV['CURL_HOST'] . ':' . $_ENV['CURL_PORT'], 'timeout' => 2.0]);
 		$res = $this->client->request('GET', 'edeninternal/version', ['verify' => false]);

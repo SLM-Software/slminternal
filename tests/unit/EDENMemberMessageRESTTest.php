@@ -23,9 +23,6 @@ class EDENMemberMessageTest extends \Codeception\Test\Unit
 
 	public function testEDENMemberMessageREST()
 	{
-		$dotEnv = new \Dotenv\Dotenv(__DIR__ . '/../../../../../../', 'eden.env');
-		$dotEnv->load();
-
 		codecept_debug('Starting testEDENInternalREST - Executing edeninternal/getmembermessage:');
 		$this->client = new \GuzzleHttp\Client(['base_uri' => 'https://' . $_ENV['CURL_HOST'] . ':' . $_ENV['CURL_PORT'], 'timeout' => 2.0]);
 		$res = $this->client->request('GET', 'edeninternal/getmembermessage?mmtag=test&localeid=EN-US&', ['verify' => false]);
