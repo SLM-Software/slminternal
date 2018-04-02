@@ -11,4 +11,4 @@ extensions:
 coverage:
     enabled: true
 params:
-    - ../../../../eden.env
+    - ../../../../../../Applications/mappstack/v7.1.14-0/.env/eden.env

@@ -26,8 +26,13 @@ class Middleware
 	{
 		$this->container->logger->debug(__METHOD__);
 
-		$x = $_SERVER[REMOTE_HOST];
-		$this->container->logger->debug("\$x=$x");
+		$z = json_decode(file_get_contents($_ENV['IP_WHITELISTFILE']), TRUE);
+		$this->container->logger->debug("\$_SERVER['REMOTE_ADDR']=" . $_SERVER['REMOTE_ADDR']);
+		if (!in_array($_SERVER['REMOTE_ADDR'], $z['IPLIST']))
+		{
+			$this->container->logger->alert(__METHOD__ . ' Unauthorized attend to access service from IP: ' . $_SERVER['REMOTE_ADDR']);
+			throw new Exception('Something went wrong - check the log!');
+		}
 
 		$myResponse = $next($request, $response);
 
