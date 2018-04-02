@@ -16,9 +16,9 @@ namespace API;
 
 use Slim;
 /**
- * Class EDENMemberMessage
+ * Class SLMCustomerMessage
  */
-class EDENMemberMessage extends EDENInternal
+class EDENGmail extends EDENInternal
 {
 	/**
 	 * Class Variable area
@@ -29,9 +29,9 @@ class EDENMemberMessage extends EDENInternal
 	protected $myLogger;
 
 	/**
-	 * @var PDO $db The instance of the Postgresql PDO connect created at startup.
+	 * @var {type} {Description}
 	 */
-	protected $myDB;
+	protected $variable;
 
 	/**
 	 * This will get a customer message from the database
@@ -49,6 +49,8 @@ class EDENMemberMessage extends EDENInternal
 	 *
 	 *          Option elements:
 	 *              none at this time.
+	 *
+	 * @todo What still needs to be done before going to production
 	 *
 	 * @return array  Keys: errCode, statusText, codeLoc, custMsg, retPack
 	 *                      errCode is 0 for Success or 900 for error
@@ -83,6 +85,8 @@ class EDENMemberMessage extends EDENInternal
 	 *
 	 *          Option elements:
 	 *              none at this time.
+	 *
+	 * @todo What still needs to be done before going to production
 	 *
 	 * @return array  Keys: errCode, statusText, codeLoc, custMsg, retPack
 	 *                      errCode is 0 for Success or 900 for error
@@ -142,7 +146,7 @@ class EDENMemberMessage extends EDENInternal
 	}
 
 	/**
-	 * EDENMemberMessage constructor
+	 * SLMCustomerMessage constructor
 	 *
 	 * @param $logger
 	 * @param $db

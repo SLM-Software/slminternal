@@ -14,7 +14,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Slim;
 
 /**
- * Class SLMInternal
+ * Class EDENInternal
  */
 class EDENInternal
 {
@@ -72,7 +72,7 @@ class EDENInternal
 	 *                      codeLoc is the class and method that throw the error
 	 *                      custMsg is the message that is displayed to the end user (customer or member)
 	 *                      retPack is the payload that is return to the caller
-
+	 *
 	 */
 	public function validateDeviceIdFormat_String(String $did)
 	{
@@ -176,7 +176,7 @@ class EDENInternal
 	}
 
 	/**
-	 * SLMInternal constructor.
+	 * EDENInternal constructor.
 	 *
 	 * @param $logger
 	 */
