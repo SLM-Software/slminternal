@@ -34,10 +34,16 @@ class EDENInternalRESTTest extends \Codeception\Test\Unit
 		$this->displayAssertions($assertResult);
 		$assertResult = NULL;
 
-		codecept_debug('Starting testEDENInternalREST - Executing edeninternal/getdeviceid:');
+		codecept_debug('->> Executing edeninternal/getdeviceid:');
 		$res = $this->client->request('GET', 'edeninternal/getdeviceid', ['verify' => false]);
 		$this->apiResults = json_decode($res->getBody());
 		codecept_debug('-> Executing edeninternal/validatedeviceid:');
+		$this->apiResults = json_decode($res->getBody());
+		$assertResult['DeviceIDValidated'] = $this->assertTrue( $this->apiResults->errCode == 0);
+		$this->displayAssertions($assertResult);
+
+		codecept_debug('->> Executing edeninternal/sendemail:');
+		$res = $this->client->request('GET', 'edeninternal/sendemail', ['verify' => false]);
 		$this->apiResults = json_decode($res->getBody());
 		$assertResult['DeviceIDValidated'] = $this->assertTrue( $this->apiResults->errCode == 0);
 		$this->displayAssertions($assertResult);

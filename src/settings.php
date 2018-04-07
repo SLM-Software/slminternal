@@ -20,6 +20,10 @@ return [
         'addContentLengthHeader' => $_ENV['APP_ADDCONTENTLENGTHHEADER'], // Allow the web server to send the content-length header
         'VERSION' => $_ENV['APP_VERSION'],
         'BUILD' => $_ENV['APP_BUILD'],
+//        The following two settings are for gmail only - you will not see them in other services
+        'APP_CREDENTIALSFILE' => $_ENV['APP_CREDENTIALSFILE'],
+        'APP_CSFILE' => $_ENV['APP_CSFILE'],
+//        The following setting is for edeninternal only - you will not see it in other services
         'IP_WHITELISTFILE' => $_ENV['IP_WHITELISTFILE'],
 
         // Renderer settings

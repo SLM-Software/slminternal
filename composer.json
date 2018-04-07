@@ -1,6 +1,6 @@
 {
-    "name": "slm/slminfo",
-    "description": "API's providing information about SLM API's",
+    "name": "eden/edeninfo",
+    "description": "API's providing information about EDEN API's",
     "authors": [
         {
             "name": "Scott Yacko",
@@ -15,7 +15,8 @@
         "monolog/monolog": "1.17",
         "ramsey/uuid": "3.7.0",
         "vlucas/phpdotenv": "2.4",
-        "auth0/auth0-php": "5.1.0"
+        "auth0/auth0-php": "5.1.0",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "3.0",

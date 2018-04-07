@@ -5,6 +5,13 @@
 //var_dump($_SERVER);
 
 $app->group('', function(){
+	$this->get('/edeninternal/sendemail', function ($request, $response, $args)
+	{
+		$this->logger->info("/sendemail '/' route");
+		$myEDENGmail = new \API\EDENGmail($this->logger, $this->get('settings'));
+
+		return $response->withJson($myEDENGmail->processEmail($request));
+	});
 	$this->get('/edeninternal/getdeviceid', function ($request, $response, $args)
 	{
 		$this->logger->info("/getdeviceid '/' route");

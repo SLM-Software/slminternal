@@ -83,6 +83,30 @@ class EDENInternal
 	}
 
 	/**
+	 * generate sendEmail.
+	 *
+	 * @api
+	 *
+	 * @param array $emailInfo Contains all the needed information for the email.
+	 *                         subject (string)
+	 *                         fromName (string)
+	 *                         fromEmail (string)
+	 *                         toNames (array) of names to use for the emails in to.
+	 *                         toEmails (array) of emails to send this message
+	 *                         msgBody (array) of lines that make up the body of the email.
+
+	 * @return array Keys: errCode, statusText, codeLoc, custMsg, retPack
+	 */
+	public function sendEmail($emailInfo)
+	{
+		$this->myLogger->debug(__METHOD__);
+
+		$results = shell_exec("php -f " . __DIR__ . "/GmailWrapper.php" . " " . json_encode($emailInfo));
+
+		return array('errCode' => 0, 'statusText' => 'Success', 'codeLoc' => __METHOD__, 'custMsg' => '', 'retPack' => $results);
+	}
+
+	/**
 	 * generate DeviceId.
 	 *
 	 * @api
